@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>Listing of #{currentDir}</title>
+<script type="text/javascript">
+
+var dirList=#{dirList};
+var currentDirectory=#{currentDir};
+
+</script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    
+	$('#title').text("Listing of " + currentDirectory);
+	var path= currentDirectory == '/' ? '/':  currentDirectory + '/';
+    for (childDir in dirList ) {    	
+    	$('#listing').append("<li><a href='" + path + dirList[childDir]+"'  >"+dirList[childDir]+"</a></li>");
+    }
+});
+</script>
+
+<style type="text/css">
+	
+	
+	.dir-up {
+		position:absolute;
+		top:3px;
+		left:3px;
+	}
+	
+	.title {
+		font-weight:bold;
+		word-break: keep-all ;
+		font-size: 18px;
+	}
+	
+	@media only screen and (max-device-width:1024px) {
+		body {
+			font-size: 5.3vw;
+			word-break: break-all;
+		}
+		
+		.title {
+			font-weight:bold;
+			font-size: 5.9vw;
+			word-break: keep-all ;
+		}
+	}
+
+
+</style>
+
+
+</head>
+<body>
+
+	<div class="container">
+		<a href=".. " class="dir-up title">
+			<span class="glyphicon glyphicon-arrow-up"></span>
+		</a>
+
+		<div class="row">
+			
+			<div class="title col-xs-12"  >
+				
+				<span id="title" />
+				
+			</div>
+		</div>
+
+		<div class="row">
+			<ul id="listing"></ul>
+
+		</div>
+
+	</div>
+
+
+
+</body>
+</html>

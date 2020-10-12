@@ -1,0 +1,102 @@
+
+plugins {
+    id 'java'
+    id 'eclipse' 
+    id 'application'
+    id 'ivy-publish'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+
+
+// project name and version
+version = '1.0';
+mainClassName = "com.livy.artifactory.ArtifactoryServer"
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use 'jcenter' for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    
+    ivy {
+        url "http://vps424138.ovh.net/artifactory/"       
+    }
+}
+
+eclipse {
+  
+
+  classpath {
+    
+    
+    //customizing the classes output directory:
+    defaultOutputDir = file('build-eclipse')
+
+    //default settings for downloading sources and Javadoc:
+    downloadSources = true
+    downloadJavadoc = false
+  }
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+  	
+  	// https://mvnrepository.com/artifact/log4j/log4j
+	implementation group: 'log4j', name: 'log4j', version: '1.2.17' 
+	
+	// https://mvnrepository.com/artifact/io.vertx/vertx-core
+	implementation 'io.vertx:vertx-core:3.9.3'
+	// https://mvnrepository.com/artifact/io.vertx/vertx-web
+	implementation group: 'io.vertx', name: 'vertx-web', version: '3.9.3'
+		    
+	
+	testImplementation(platform('org.junit:junit-bom:5.7.0'))
+	testImplementation('org.junit.jupiter:junit-jupiter')
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+
+jar {
+   manifest {
+   		attributes(
+   			'Main-Class': 'com.livy.artifactory.ArtifactoryServer',
+   			"Implementation-Title": "Livy-Artifactory",
+            "Implementation-Version": archiveVersion, 
+            'Class-Path': configurations.runtimeClasspath.files.collect {"$it.name"}.join(' ')          
+       	)      
+   }
+   
+}
+
+
+
+publishing {
+  	publications {
+    	ivy(IvyPublication) {
+      		
+      		organisation  'com.livy'
+            module  'Livy'
+            revision  '1.0.0'                 		
+      		
+      		from components.java
+    	}
+  	}
+  
+	repositories {
+	  	ivy {
+	    	url=REPOSITORY_URL
+	    }
+	    
+	}
+}
+
